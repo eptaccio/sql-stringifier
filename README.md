@@ -2,6 +2,12 @@
 
 sql-stringifier was made to allow you make fast and secure sql requests.
 
+## Installing
+
+```
+npm install sql-stringifier
+```
+
 ## Usage examples
 
 ### Select data
@@ -59,7 +65,7 @@ try {
     /* handle error */
 }
 ```
-### API
+<!-- ### API
 
 #### stringify(options)
 
@@ -71,4 +77,4 @@ try {
     - `lt` - selects the rows where the value of the field is less than the specified value.
     - `lte` - selects the rows where the value of the field is less than or equal to the specified value.
     - `like` - [SQL LIKE Operator](https://dev.mysql.com/doc/refman/5.7/en/pattern-matching.html)
-    - `regexp` - [SQL REGEXP Operator](https://dev.mysql.com/doc/refman/5.7/en/regexp.html)
+    - `regexp` - [SQL REGEXP Operator](https://dev.mysql.com/doc/refman/5.7/en/regexp.html) -->
