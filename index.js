@@ -134,7 +134,7 @@ var main = module.exports = {
 
         }
 
-        return config.result + `;`;
+        return config.result + ';';
 
     }
 };

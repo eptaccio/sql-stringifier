@@ -8,6 +8,18 @@ sql-stringifier was made to allow you make fast and secure sql requests.
 npm install sql-stringifier
 ```
 
+### API
+
+API is a subset of MongoDB's but without a **$** at the beginning.
+
+#### Available operators
+    - `gt` - selects those rows where the value of the field is greater than the specified value.
+    - `gte` - selects the rows where the value of the field is greater than or equal to a specified value.
+    - `lt` - selects the rows where the value of the field is less than the specified value.
+    - `lte` - selects the rows where the value of the field is less than or equal to the specified value.
+    - `like` - [SQL LIKE Operator](https://dev.mysql.com/doc/refman/5.7/en/pattern-matching.html)
+    - `regexp` - [SQL REGEXP Operator](https://dev.mysql.com/doc/refman/5.7/en/regexp.html)
+
 ## Usage examples
 
 ### Select data
