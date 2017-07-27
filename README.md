@@ -1,6 +1,6 @@
 # sql-stringifier
 
-sql-stringifier was made to allow you make fast and secure sql requests.
+sql-stringifier converts javascript arrays to correct sql queries.
 
 ## Installing
 
