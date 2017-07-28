@@ -44,7 +44,7 @@ sqlStringifier.stringify({
     }
 });
 
-// SELECT `name`, `age` FROM `users` WHERE `name` = 'John' AND `age` <= 18;
+// SELECT `name`, `age` FROM `users` WHERE `name` = 'John' AND `age` >= 18;
 ```
 
 ### Insert data
