@@ -10,6 +10,10 @@ sql-stringifier converts javascript arrays to correct sql queries.
 npm install sql-stringifier
 ```
 
+## Features
+
+  * Auto escaping query values
+
 ## API
 
 API is a subset of MongoDB's but without a **$** at the beginning.
