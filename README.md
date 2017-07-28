@@ -99,6 +99,37 @@ sqlStringifier.stringify({
 // DELETE FROM `users` WHERE `name` = 'John';
 ```
 
+### Limit
+
+```js
+const sqlStringifier = require('sql-stringifier');
+
+sqlStringifier.stringify({
+    table: 'users',
+    select: ['name', 'age'],
+    limit: [0, 20]
+});
+
+// SELECT `name`, `age` FROM `users` LIMIT 0, 20;
+```
+
+### Order by
+
+```js
+const sqlStringifier = require('sql-stringifier');
+
+sqlStringifier.stringify({
+    table: 'users',
+    select: ['name', 'age'],
+    order: {
+        columns: ['age'],
+        sort: 'ASC'
+    }
+});
+
+// SELECT `name`, `age` FROM `users` ORDER BY `age` ASC;
+```
+
 ### Error handling
 
 ```js
