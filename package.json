@@ -1,10 +1,10 @@
 {
   "name": "sql-stringifier",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "sql-stringifier converts javascript arrays to correct sql queries",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
