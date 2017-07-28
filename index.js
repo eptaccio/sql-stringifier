@@ -110,7 +110,7 @@ var main = {
                                 case 'string':
                                 case 'number':
 
-                                    config.result += (config.once ? ' AND `' : ' `') + option + "` > " + print(object.where[option].lt);
+                                    config.result += (config.once ? ' AND `' : ' `') + option + "` < " + print(object.where[option].lt);
                                     config.once = true;
                                     break;
                             }
@@ -119,7 +119,7 @@ var main = {
                                 case 'string':
                                 case 'number':
 
-                                    config.result += (config.once ? ' AND `' : ' `') + option + "` >= " + print(object.where[option].lte);
+                                    config.result += (config.once ? ' AND `' : ' `') + option + "` <= " + print(object.where[option].lte);
                                     config.once = true;
                                     break;
                             }
@@ -130,7 +130,7 @@ var main = {
                                 case 'string':
                                 case 'number':
 
-                                    config.result += (config.once ? ' AND `' : ' `') + option + "` <= " + print(object.where[option].gt);
+                                    config.result += (config.once ? ' AND `' : ' `') + option + "` >= " + print(object.where[option].gt);
                                     config.once = true;
                                     break;
                             }
@@ -139,7 +139,7 @@ var main = {
                                 case 'string':
                                 case 'number':
 
-                                    config.result += (config.once ? ' AND `' : ' `') + option + "` <= " + print(object.where[option].gte);
+                                    config.result += (config.once ? ' AND `' : ' `') + option + "` >= " + print(object.where[option].gte);
                                     config.once = true;
                                     break;
                             }
