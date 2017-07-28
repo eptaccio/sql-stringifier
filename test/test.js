@@ -1,6 +1,53 @@
 var assert = require('assert');
 const sqlStringifier = require('sql-stringifier');
 
+describe('select data + ORDER BY + LIMIT', function() {
+	it('should return the right select sql query', function() {
+		var actual = sqlStringifier.stringify({
+			table: 'users',
+			select: ['name', 'age'],
+			where: {
+				name: 'John',
+				age: {
+					gt: 18
+				}
+			},
+			order: {
+				columns: ['name', 'age'],
+				sort: 'ASC'
+			},
+			limit: [0, 10]
+		});
+		assert.equal(actual, "SELECT `name`, `age` FROM `users` WHERE `name` = 'John' AND `age` >= 18 ORDER BY `name`, `age` ASC LIMIT 0, 10;");
+	});
+});
+
+describe('select data + ALL WHERE OPERATORS', function() {
+	it('should return the right select sql query', function() {
+		var actual = sqlStringifier.stringify({
+			table: 'users',
+			select: ['name', 'age'],
+			where: {
+				name: {
+					like: '%John%'
+				},
+				age: {
+					gt: 18,
+					lt: 30
+				},
+				year: {
+					gte: 1000,
+					lte: 1000
+				},
+				surname: {
+					regex: '//'
+				}
+			}
+		});
+		assert.equal(actual, "SELECT `name`, `age` FROM `users` WHERE `name` LIKE '%John%' AND `age` < 30 AND `age` >= 18 AND `year` <= 1000 AND `year` >= 1000;");
+	});
+});
+
 describe('select data', function() {
 	it('should return the right select sql query', function() {
 		var actual = sqlStringifier.stringify({

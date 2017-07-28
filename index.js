@@ -11,6 +11,9 @@ function print(value) {
         case 'number':
             return value;
             break;
+        default:
+            Error('Type error: ' + value);
+            break;
     }
 
 }
@@ -26,7 +29,6 @@ function join(array) {
     });
     return result;
 }
-
 
 
 var main = {
@@ -171,6 +173,26 @@ var main = {
 
             }
 
+        }
+
+        if (object.order && config.type === 'select') {
+
+            var col = object.order.columns || object.order.column;
+
+            var order = typeof col === 'string' ? col : (Array.isArray(col) ? join(col) : '');
+
+            if (order) {
+
+                config.result += ' ORDER BY ' + order + ' ' + object.order.sort;
+
+            } else {
+                return Error('Order is defined with errors');
+            }
+
+        }
+
+        if (Array.isArray(object.limit) && object.limit.length === 2) {
+            config.result += ' LIMIT ' + object.limit[0] + ', ' + object.limit[1];
         }
 
         return config.result + ';';
