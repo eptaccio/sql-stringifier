@@ -12,9 +12,24 @@ function print(value) {
             return value;
             break;
     }
+
 }
 
-var main = module.exports = {
+function join(array) {
+    var result = '';
+    array.forEach(function(item) {
+        if (result) {
+            result += ', `' + item + '`'
+        } else {
+            result += '`' + item + '`';
+        }
+    });
+    return result;
+}
+
+
+
+var main = {
 
     stringify: function(object) {
 
@@ -24,14 +39,31 @@ var main = module.exports = {
         if (typeof object.table !== 'string') return Error('Table is not defined');
 
         if (object.select) {
-            config.result = 'SELECT ' + (typeof object.select === 'object' ? object.select.join(',') : (object.select ? object.select : '*')) + ' FROM `' + object.table + '`';
+
+            config.result = 'SELECT ' + (typeof object.select === 'object' ? join(object.select) : (object.select ? object.select : '*')) + ' FROM `' + object.table + '`';
             config.type = 'select';
+
         } else if (object.insert) {
+
             config.result = 'INSERT INTO `' + object.table + '`';
             config.type = 'insert';
+
+        } else if (object.update) {
+
+            config.result = 'UPDATE `' + object.table + '` SET';
+            config.type = 'update';
+
+        } else if (object.delete) {
+
+            config.result = 'DELETE FROM `' + object.table + '`';
+            config.type = 'delete';
+            object.where = object.delete.where;
+
         }
 
+
         if (config.type === 'insert') {
+
             var firstPart = '';
             var secondPart = '';
 
@@ -39,7 +71,17 @@ var main = module.exports = {
                 firstPart += (firstPart ? ', ' : '') + '`' + option + '`';
                 secondPart += (secondPart ? ', ' : '') + print(object.insert.values[option]);
             }
+
             config.result += ' (' + firstPart + ') VALUES (' + secondPart + ')';
+
+        } else if (config.type === 'update') {
+            var set = [];
+            for (var option in object.update) {
+                set.push('`' + option + '` = ' + print(object.update[option]));
+            }
+
+            config.result += ' ' + set.join(', ');
+
         }
 
         if (['select', 'update', 'delete'].indexOf(config.type) > -1 && object.where && typeof object.where === 'object') {
@@ -138,3 +180,5 @@ var main = module.exports = {
 
     }
 };
+
+module.exports = main;

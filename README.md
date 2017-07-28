@@ -2,6 +2,8 @@
 
 sql-stringifier converts javascript arrays to correct sql queries.
 
+[![Version npm](https://img.shields.io/npm/v/sql-stringifier.svg)](https://www.npmjs.com/package/sql-stringifier)
+
 ## Installing
 
 ```
@@ -38,7 +40,7 @@ sqlStringifier.stringify({
     }
 });
 
-// SELECT name,age FROM `users` WHERE `name` = 'John' AND `age` <= 18;
+// SELECT `name`, `age` FROM `users` WHERE `name` = 'John' AND `age` <= 18;
 ```
 
 ### Insert data
@@ -57,6 +59,40 @@ sqlStringifier.stringify({
 });
 
 // INSERT INTO `users` (`name`, `age`) VALUES ('John', 21);
+```
+### Update data
+
+```js
+const sqlStringifier = require('sql-stringifier');
+
+sqlStringifier.stringify({
+    table: 'users',
+    update: {
+        age: 18,
+    },
+    where: {
+        id: 10
+    }
+});
+
+// UPDATE `users` SET `age` = 18 WHERE `id` = 10;
+```
+
+### Delete data
+
+```js
+const sqlStringifier = require('sql-stringifier');
+
+sqlStringifier.stringify({
+    table: 'users',
+    delete: {
+        where: {
+            name: 'John'
+        }
+    }
+});
+
+// DELETE FROM `users` WHERE `name` = 'John';
 ```
 
 ### Error handling
