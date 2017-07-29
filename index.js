@@ -70,14 +70,17 @@ var main = {
 			var firstPart = '';
 			var secondPart = '';
 
+
 			for (var option in object.insert.values) {
 				firstPart += (firstPart ? ', ' : '') + '`' + option + '`';
 				secondPart += (secondPart ? ', ' : '') + print(object.insert.values[option]);
 			}
 
+
 			config.result += ' (' + firstPart + ') VALUES (' + secondPart + ')';
 
 		} else if (config.type === 'update') {
+
 			var set = [];
 			for (var option in object.update) {
 				set.push('`' + option + '` = ' + print(object.update[option]));
