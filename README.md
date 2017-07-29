@@ -1,8 +1,9 @@
 # sql-stringifier
 
-sql-stringifier converts javascript arrays to correct sql queries. (sql query builder)
+sql-stringifier converts javascript arrays to correct sql queries (aka sql query builder)
 
-[![NPM Version](https://img.shields.io/npm/v/sql-stringifier.svg)](https://www.npmjs.com/package/sql-stringifier) [![NPM Downloads](https://img.shields.io/npm/dm/sql-stringifier.svg)](https://www.npmjs.com/package/sql-stringifier)
+[![NPM Version](https://img.shields.io/npm/v/sql-stringifier.svg)](https://www.npmjs.com/package/sql-stringifier)
+[![NPM Downloads](https://img.shields.io/npm/dm/sql-stringifier.svg)](https://www.npmjs.com/package/sql-stringifier)
 
 ## Installing
 

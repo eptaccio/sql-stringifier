@@ -1,7 +1,7 @@
 {
   "name": "sql-stringifier",
   "version": "1.0.9",
-  "description": "sql-stringifier converts javascript arrays to correct sql queries (sql query builder)",
+  "description": "sql-stringifier converts javascript arrays to correct sql queries (aka sql query builder)",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
