@@ -108,3 +108,71 @@ describe('delete data', function() {
 		assert.equal(actual, "DELETE FROM `users` WHERE `name` = 'John';");
 	});
 });
+
+describe('catch error in WHERE', function() {
+	it('should return an error', function() {
+		var error = false;
+		try {
+			sqlStringifier.stringify({
+				table: 'users',
+				delete: {
+					where: []
+				}
+			});
+		} catch (e) {
+			error = true;
+		}
+		assert.equal(error, true);
+	});
+});
+
+describe('catch error in WHERE + OPERATORS', function() {
+	it('should return an error', function() {
+		var error = false;
+		try {
+			sqlStringifier.stringify({
+				table: 'users',
+				delete: {
+					where: {
+						lt: []
+					}
+				}
+			});
+		} catch (e) {
+			error = true;
+		}
+		assert.equal(error, true);
+	});
+});
+
+describe('catch error in ORDER', function() {
+	it('should return an error', function() {
+		var error = false;
+		try {
+			sqlStringifier.stringify({
+				table: 'users',
+				select: ['lol'],
+				order: {
+					columns: {}
+				}
+			});
+		} catch (e) {
+			error = true;
+		}
+		assert.equal(error, true);
+	});
+});
+
+describe('catch error when sql query type is defined', function() {
+	it('should return an error', function() {
+		var error = false;
+		try {
+			sqlStringifier.stringify({
+				table: 'users'
+			});
+		} catch (e) {
+			error = true;
+		}
+		assert.equal(error, true);
+	});
+});

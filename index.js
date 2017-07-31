@@ -12,7 +12,7 @@ function print(value) {
 			return value;
 			break;
 		default:
-			Error('Type error: ' + value);
+			throw new Error('Type error: ' + value);
 			break;
 	}
 
@@ -31,6 +31,20 @@ function join(array, delimiter) {
 	return result;
 }
 
+function type(input) {
+	switch (Object.prototype.toString.call(input)) {
+		case '[object Array]':
+			return 'array';
+			break;
+		case '[object Object]':
+			return 'object';
+			break;
+		default:
+			return typeof input;
+			break;
+	}
+}
+
 
 var main = {
 
@@ -38,23 +52,49 @@ var main = {
 
 		var config = {};
 
-		if (typeof object !== 'object') return Error('First parameter should be an object');
-		if (typeof object.table !== 'string') return Error('Table is not defined');
+		if (type(object) !== 'object') throw Error('First parameter should be an object');
+		if (typeof object.table !== 'string') throw Error('Table is not defined');
 
 		if (object.select) {
 
-			config.result = 'SELECT ' + (typeof object.select === 'object' ? join(object.select) : (object.select ? object.select : '*')) + ' FROM `' + object.table + '`';
+			config.result = 'SELECT ' + (type(object.select) === 'array' ? join(object.select) : (typeof object.select === 'string' ? object.select : '*')) + ' FROM `' + object.table + '`';
 			config.type = 'select';
 
 		} else if (object.insert) {
 
+			if (type(object.insert.values) !== 'object') {
+				throw Error('INSERT is not an object');
+			}
+
 			config.result = 'INSERT INTO `' + object.table + '`';
 			config.type = 'insert';
 
+			var firstPart = '';
+			var secondPart = '';
+
+			for (var option in object.insert.values) {
+				firstPart += (firstPart ? ', ' : '') + '`' + option + '`';
+				secondPart += (secondPart ? ', ' : '') + print(object.insert.values[option]);
+			}
+
+			config.result += ' (' + firstPart + ') VALUES (' + secondPart + ')';
+
 		} else if (object.update) {
+
+			if (type(object.update) !== 'object') {
+				throw Error('UPDATE is not an object');
+			}
 
 			config.result = 'UPDATE `' + object.table + '` SET';
 			config.type = 'update';
+
+			var set = [];
+
+			for (var option in object.update) {
+				set.push('`' + option + '` = ' + print(object.update[option]));
+			}
+
+			config.result += ' ' + set.join(', ');
 
 		} else if (object.delete) {
 
@@ -62,37 +102,18 @@ var main = {
 			config.type = 'delete';
 			object.where = object.delete.where;
 
-		}
+		} else {
 
-
-		if (config.type === 'insert') {
-
-			var firstPart = '';
-			var secondPart = '';
-
-
-			for (var option in object.insert.values) {
-				firstPart += (firstPart ? ', ' : '') + '`' + option + '`';
-				secondPart += (secondPart ? ', ' : '') + print(object.insert.values[option]);
-			}
-
-
-			config.result += ' (' + firstPart + ') VALUES (' + secondPart + ')';
-
-		} else if (config.type === 'update') {
-
-			var set = [];
-			for (var option in object.update) {
-				set.push('`' + option + '` = ' + print(object.update[option]));
-
-			}
-
-
-			config.result += ' ' + set.join(', ');
+			throw Error('SQL query is not defined');
 
 		}
 
-		if (['select', 'update', 'delete'].indexOf(config.type) > -1 && object.where && typeof object.where === 'object') {
+		if (['select', 'update', 'delete'].indexOf(config.type) > -1) {
+
+			if (type(object.where) !== 'object') {
+
+				throw Error('WHERE is not an object');
+			}
 
 			config.result += ' WHERE';
 
@@ -100,16 +121,14 @@ var main = {
 
 			for (var option in object.where) {
 
-				switch (typeof object.where[option]) {
+				switch (type(object.where[option])) {
 					case 'string':
 					case 'number':
-
 
 						config.result += (config.once ? ' AND `' : ' `') + option + "` = " + print(object.where[option]);
 						config.once = true;
 
 						break;
-
 
 					case 'object':
 
@@ -192,25 +211,26 @@ var main = {
 
 			var col = object.order.columns || object.order.column;
 
-			var order = typeof col === 'string' ? col : (Array.isArray(col) ? join(col) : '');
+			var order = typeof col === 'string' ? col : (type(col) === 'array' ? join(col) : false);
 
-			if (order) {
+			if (order && typeof object.order.sort === 'string') {
 
 				config.result += ' ORDER BY ' + order + ' ' + object.order.sort;
 
 			} else {
-				return Error('Order is defined with errors');
+				throw Error('ORDER is defined with mistakes');
 			}
 
 		}
 
-		if (Array.isArray(object.limit) && object.limit.length === 2) {
+		if (type(object.limit) === 'array' && object.limit.length === 2) {
 			config.result += ' LIMIT ' + object.limit[0] + ', ' + object.limit[1];
 		}
 
 		return config.result + ';';
 
 	}
+
 };
 
 module.exports = main;
